@@ -34,13 +34,20 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    environment: prod
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v7.0.0
         with:
           name: dotnet-app-build
           # ../work/mvc-project/.../artifact/dotnet-app.zip
-          path: ./artifact 
+          path: ./artifact
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with: 
+          app-name: mvc-project
+          package: "./artifact/dotnet-app.zip"
+        
         
         
       
